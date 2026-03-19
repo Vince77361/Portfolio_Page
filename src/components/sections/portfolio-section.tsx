@@ -41,19 +41,20 @@ function PortfolioItem({
             end: "top top",
             scrub: 3,
           },
-        }
+        },
       );
 
       // 퇴장 애니메이션: 고정된 상태에서 커지며 사라짐
-      gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top top",
-          end: "+=180%",
-          pin: true,
-          scrub: 2.4,
-        },
-      })
+      gsap
+        .timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top top",
+            end: "+=180%",
+            pin: true,
+            scrub: 2.4,
+          },
+        })
         .to(content, { duration: 1.5, ease: "none" })
         .to(content, { scale: 1.18, opacity: 0, duration: 1, ease: "none" });
     });
@@ -62,7 +63,10 @@ function PortfolioItem({
   }, []);
 
   return (
-    <div ref={sectionRef} className="min-h-screen flex items-center py-24 px-6 bg-zinc-950">
+    <div
+      ref={sectionRef}
+      className="min-h-screen flex items-center py-24 px-6 bg-zinc-950"
+    >
       <div ref={contentRef} className="max-w-6xl mx-auto w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Text side */}
@@ -109,11 +113,11 @@ function PortfolioItem({
           {/* Image side */}
           <div className={isEven ? "lg:order-2" : "lg:order-1"}>
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-transparent rounded-2xl -m-2 blur-xl" />
+              <div className="absolute inset-0 bg-linear-to-br from-violet-600/10 to-transparent rounded-2xl -m-2 blur-xl" />
               <ImageContainer
                 src={item.image}
                 alt={item.title}
-                className="w-full aspect-[4/3] rounded-2xl relative"
+                className="w-full aspect-4/3 rounded-2xl relative"
               />
             </div>
           </div>
@@ -127,7 +131,10 @@ function PortfolioHeader() {
   const { sectionRef, contentRef } = useCinematicScroll();
 
   return (
-    <div ref={sectionRef} className="min-h-screen flex items-center justify-center py-24 px-6 bg-zinc-950">
+    <div
+      ref={sectionRef}
+      className="min-h-screen flex items-center justify-center py-24 px-6 bg-zinc-950"
+    >
       <div ref={contentRef} className="text-center">
         <p className="text-sm font-mono text-violet-400 tracking-widest uppercase mb-4">
           Works
@@ -135,8 +142,12 @@ function PortfolioHeader() {
         <h2 className="text-6xl md:text-8xl font-black text-zinc-50 mb-4">
           Portfolio
         </h2>
-        <p className="text-lg text-zinc-500">참여했거나 직접 개발한 프로젝트들입니다.</p>
-        <p className="mt-4 text-sm text-zinc-600">* 일부 사진은 준비 중인 점 양해 부탁드립니다.</p>
+        <p className="text-lg text-zinc-500">
+          참여했거나 직접 개발한 프로젝트들입니다.
+        </p>
+        <p className="mt-4 text-sm text-zinc-600">
+          * 일부 사진은 준비 중인 점 양해 부탁드립니다.
+        </p>
       </div>
     </div>
   );

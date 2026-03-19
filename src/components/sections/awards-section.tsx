@@ -48,11 +48,11 @@ function AwardItem({
           {/* Image side */}
           <div className={isEven ? "lg:order-2" : "lg:order-1"}>
             <div className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-violet-600/10 to-transparent rounded-2xl -m-2 blur-xl" />
+              <div className="absolute inset-0 bg-linear-to-br from-violet-600/10 to-transparent rounded-2xl -m-2 blur-xl" />
               <ImageContainer
                 src={award.image}
                 alt={award.title}
-                className="w-full aspect-[4/3] rounded-2xl relative"
+                className="w-full aspect-4/3 rounded-2xl relative"
               />
             </div>
           </div>

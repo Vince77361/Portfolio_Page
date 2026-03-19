@@ -43,7 +43,7 @@ export default async function PortfolioDetailPage({ params }: Props) {
           <ImageContainer
             src={item.image}
             alt={item.title}
-            className="w-full aspect-[4/3] mb-8"
+            className="w-full aspect-4/3 mb-8"
           />
 
           <span className="text-xs font-mono text-zinc-600">{item.date}</span>
