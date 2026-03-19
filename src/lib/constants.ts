@@ -5,6 +5,7 @@ import atm from "../../public/images/atm.png";
 import silkroad from "../../public/images/silkroad.png";
 import starthub from "../../public/images/starthub.png";
 import AIdealize from "../../public/images/AIdealize.png";
+import voah from "../../public/images/voah.png";
 
 export const IMAGES = {
   junctionasia,
@@ -14,6 +15,7 @@ export const IMAGES = {
   silkroad,
   starthub,
   AIdealize,
+  voah,
 };
 
 export const HERO = {
@@ -58,7 +60,7 @@ export const PORTFOLIO = [
     subTitle: "차세대 업무 관리 플랫폼",
     description:
       "Notion, Discord, Slack 등의 여러 툴을 하나의 환경에서 쓸 수 있으면 얼마나 편할까요? VOAH는 이러한 다양한 기능들을 모두 구현해, 모듈을 선택적으로 사용할 수 있습니다. 저는 VOAH의 메신저 모듈 개발 담당을 맡았습니다.",
-    image: "",
+    image: voah,
     date: "2023.11",
     stack: ["Typescript", "React"],
   },
