@@ -13,9 +13,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "이유비 | Web/Mobile Developer",
+  title: "이유비 포트폴리오 아카이브",
   description:
-    "시스템 최적화 및 자동화를 통해 더 활력 넘치는 세상을 만드는 웹/모바일 개발자 이유비의 포트폴리오입니다.",
+    "Vince The Developer - 이유비의 포트폴리오를 모아둔 페이지입니다.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

@@ -43,7 +43,7 @@ export const HISTORIES = [
   },
   {
     name: "#IMPLUDE",
-    sub: "Make What you Think",
+    sub: "Make as You Think",
     description:
       "임플루드 개발 및 교육 팀장 (2023, 2024년도 비즈쿨 창업동아리 1위 선정)",
   },
