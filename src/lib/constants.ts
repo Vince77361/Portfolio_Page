@@ -18,8 +18,15 @@ export const IMAGES = {
   voah,
 };
 
+export const SLOGAN = [
+  "To the Topclass Engineer",
+  "Optimization ov Industry",
+  "The Relentless Growth",
+  "New Industrial Paradigm",
+];
+
 export const HERO = {
-  slogan: "To the Topclass Engineer",
+  slogan: SLOGAN[0],
   greeting:
     "안녕하세요! 저는 시스템 최적화 및 자동화를 통해 더 활력 넘치는 세상을 만들기 위해 업무 최적화 플랫폼을 주로 개발하고 있는 이유비라고 합니다.",
   name: "이유비",

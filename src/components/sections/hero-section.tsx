@@ -1,7 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
-import { HERO, HISTORIES, TECH_STACK } from "@/lib/constants";
+import { HERO, HISTORIES, TECH_STACK, SLOGAN } from "@/lib/constants";
 import TechBadge from "@/components/ui/tech-badge";
 
 const fadeUp: Variants = {
@@ -14,6 +15,8 @@ const fadeUp: Variants = {
 };
 
 export default function HeroSection() {
+  const [slogan] = useState(() => SLOGAN[Math.floor(Math.random() * SLOGAN.length)]);
+
   return (
     <section
       id="hero"
@@ -26,8 +29,9 @@ export default function HeroSection() {
         animate="visible"
         variants={fadeUp}
         className="text-sm font-mono text-violet-400 tracking-widest uppercase mb-6"
+        suppressHydrationWarning
       >
-        {HERO.slogan}
+        {slogan}
       </motion.p>
 
       <motion.div
