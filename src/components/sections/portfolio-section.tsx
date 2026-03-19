@@ -143,7 +143,8 @@ function PortfolioHeader() {
           Portfolio
         </h2>
         <p className="text-lg text-zinc-500">
-          참여했거나 직접 개발한 프로젝트들입니다.
+          참여했거나 직접 개발한 프로젝트들입니다. <br />
+          스크롤하여 확인해 보세요!
         </p>
         <p className="mt-4 text-sm text-zinc-600">
           * 일부 사진은 준비 중인 점 양해 부탁드립니다.

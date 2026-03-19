@@ -77,7 +77,10 @@ function AwardsHeader() {
         <h2 className="text-6xl md:text-8xl font-black text-zinc-50 mb-4">
           Awards
         </h2>
-        <p className="text-lg text-zinc-500">수상 이력입니다.</p>
+        <p className="text-lg text-zinc-500">
+          수상 이력입니다. <br />
+          스크롤하여 확인해 보세요!
+        </p>
         <p className="mt-4 text-sm text-zinc-600">
           * 일부 사진은 준비 중인 점 양해 부탁 드립니다.
         </p>
