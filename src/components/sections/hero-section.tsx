@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { motion, type Variants } from "framer-motion";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { HERO, HISTORIES, TECH_STACK, SLOGAN } from "@/lib/constants";
 import TechBadge from "@/components/ui/tech-badge";
 
@@ -15,7 +15,14 @@ const fadeUp: Variants = {
 };
 
 export default function HeroSection() {
-  const [slogan] = useState(() => SLOGAN[Math.floor(Math.random() * SLOGAN.length)]);
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIndex((prev) => (prev + 1) % SLOGAN.length);
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section
@@ -23,16 +30,27 @@ export default function HeroSection() {
       className="min-h-screen flex flex-col justify-center px-6 pt-20 pb-16 max-w-6xl mx-auto mt-32"
     >
       {/* Slogan */}
-      <motion.p
+      <motion.div
         custom={0}
         initial="hidden"
         animate="visible"
         variants={fadeUp}
-        className="text-sm font-mono text-violet-400 tracking-widest uppercase mb-6"
-        suppressHydrationWarning
+        className="mb-6 h-5 overflow-hidden"
+        style={{ perspective: 800 }}
       >
-        {slogan}
-      </motion.p>
+        <AnimatePresence mode="popLayout">
+          <motion.p
+            key={index}
+            initial={{ rotateX: 45, opacity: 0, y: 12 }}
+            animate={{ rotateX: 0, opacity: 1, y: 0 }}
+            exit={{ rotateX: -45, opacity: 0, y: -12 }}
+            transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
+            className="text-sm font-mono text-violet-400 tracking-widest uppercase"
+          >
+            {SLOGAN[index]}
+          </motion.p>
+        </AnimatePresence>
+      </motion.div>
 
       <motion.div
         custom={1}
