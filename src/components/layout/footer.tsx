@@ -2,13 +2,31 @@ import { FOOTER_ITEM } from "@/lib/constants";
 
 const ICONS: Record<string, React.ReactNode> = {
   email: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect width="20" height="16" x="2" y="4" rx="2" />
       <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
     </svg>
   ),
   instagram: (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
       <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
       <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
@@ -29,58 +47,83 @@ const ICONS: Record<string, React.ReactNode> = {
 export default function Footer() {
   const contacts = Object.entries(FOOTER_ITEM) as [
     keyof typeof FOOTER_ITEM,
-    { name: string; href: string },
+    { name: string; href: string }
   ][];
 
   return (
     <footer className="border-t border-zinc-800 bg-zinc-950">
-      <div className="max-w-6xl mx-auto px-6 py-12">
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div>
-            <p className="text-lg font-bold text-zinc-50">이유비</p>
-            <p className="text-sm text-zinc-500 mt-1">Web/Mobile Developer</p>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-12 md:py-16">
+        <div className="flex items-baseline justify-between gap-4 border-b border-zinc-800 pb-3 mb-10">
+          <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-zinc-500">
+            <span className="text-accent-400">04</span> &nbsp;—&nbsp; Contact
+          </span>
+          <span className="hidden sm:inline font-mono text-[11px] tracking-[0.25em] text-zinc-600">
+            End of page
+          </span>
+        </div>
+
+        <div className="grid grid-cols-12 gap-x-4 md:gap-x-6 gap-y-10">
+          <div className="col-span-12 md:col-span-5">
+            <p className="font-display text-5xl md:text-7xl text-zinc-50 uppercase leading-none">
+              이유비
+            </p>
+            <p className="mt-4 font-mono text-[11px] tracking-[0.25em] uppercase text-zinc-500">
+              Web / Mobile Developer
+            </p>
           </div>
 
-          <div className="flex flex-col gap-3">
-            {contacts.map(([key, { name, href }]) => {
-              const icon = (
-                <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-zinc-800 transition-colors group-hover:bg-violet-500/20">
-                  {ICONS[key]}
-                </span>
-              );
-
-              if (!href) {
-                return (
-                  <span
-                    key={key}
-                    className="flex items-center gap-3 text-sm text-zinc-500 group"
-                  >
-                    {icon}
-                    {name}
-                  </span>
+          <div className="col-span-12 md:col-span-7">
+            <p className="font-mono text-[11px] tracking-[0.25em] uppercase text-zinc-500 mb-5">
+              ↳ Reach out
+            </p>
+            <ul className="divide-y divide-zinc-900 border-y border-zinc-900">
+              {contacts.map(([key, { name, href }]) => {
+                const content = (
+                  <div className="grid grid-cols-12 gap-x-4 items-center py-4">
+                    <span className="col-span-12 sm:col-span-3 md:col-span-2 font-mono text-[10px] tracking-[0.25em] uppercase text-zinc-500">
+                      {key}
+                    </span>
+                    <span className="col-span-11 sm:col-span-8 md:col-span-9 mt-2 sm:mt-0 flex min-w-0 items-center gap-3 text-sm text-zinc-200 break-all">
+                      <span className="text-zinc-400">{ICONS[key]}</span>
+                      {name}
+                    </span>
+                    <span className="col-span-1 mt-2 sm:mt-0 text-right text-zinc-600 group-hover:text-zinc-200 transition-colors">
+                      {href ? "↗" : "—"}
+                    </span>
+                  </div>
                 );
-              }
 
-              return (
-                <a
-                  key={key}
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-3 text-sm text-zinc-400 hover:text-violet-400 transition-colors group"
-                >
-                  {icon}
-                  {name}
-                </a>
-              );
-            })}
+                if (!href) {
+                  return (
+                    <li
+                      key={key}
+                      className="text-zinc-500 group cursor-default"
+                    >
+                      {content}
+                    </li>
+                  );
+                }
+
+                return (
+                  <li key={key}>
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block text-zinc-300 hover:text-accent-300 hover:bg-zinc-900/60 transition-colors group"
+                    >
+                      {content}
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
         </div>
 
-        <div className="mt-10 pt-6 border-t border-zinc-800/50">
-          <p className="text-xs text-zinc-600 text-center">
-            © {new Date().getFullYear()} 이유비. All rights reserved.
-          </p>
+        <div className="mt-14 pt-5 border-t border-zinc-900 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between font-mono text-[11px] tracking-[0.2em] uppercase text-zinc-600">
+          <p>© {new Date().getFullYear()} Lee Yubi</p>
+          <p>All rights reserved</p>
         </div>
       </div>
     </footer>

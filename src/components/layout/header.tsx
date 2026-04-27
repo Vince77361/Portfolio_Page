@@ -29,28 +29,37 @@ export default function Header() {
   }
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800"
-          : "bg-transparent"
-      }`}
-    >
-      <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+    <header className="fixed top-0 inset-x-0 z-50 flex justify-center pointer-events-none">
+      <div
+        className={`pointer-events-auto flex items-center justify-between gap-3 transition-all duration-300 ease-out ${
+          scrolled
+            ? "mt-3 h-11 md:h-[3.2rem] w-[92%] sm:w-[78%] md:w-[70%] max-w-[1100px] rounded-full bg-zinc-950/45 backdrop-blur-md border border-zinc-600/60 shadow-[0_8px_30px_rgba(0,0,0,0.35)] px-5 md:px-7"
+            : "mt-0 h-14 md:h-16 w-full max-w-7xl rounded-none bg-transparent backdrop-blur-0 border border-transparent border-b-transparent shadow-none px-4 sm:px-6 md:px-12"
+        }`}
+      >
         <button
           onClick={() => scrollToSection("hero")}
-          className="text-xl font-bold tracking-tight text-zinc-50 hover:text-violet-400 transition-colors"
+          className="flex min-w-0 items-center gap-2 md:gap-3 group"
         >
-          LYB Archive
+          <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-zinc-500 group-hover:text-zinc-300 transition-colors">
+            LYB
+          </span>
+          <span className="hidden sm:block h-px w-6 bg-zinc-700 group-hover:bg-zinc-400 group-hover:w-10 transition-all" />
+          <span className="hidden sm:inline font-display text-sm font-bold tracking-[0.1em] uppercase text-zinc-50">
+            Archive
+          </span>
         </button>
 
-        <nav className="flex items-center gap-1">
-          {NAV_ITEMS.map((item) => (
+        <nav className="flex shrink-0 items-center gap-0.5 md:gap-1">
+          {NAV_ITEMS.map((item, i) => (
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className="px-4 py-2 text-sm text-zinc-400 hover:text-zinc-50 hover:bg-zinc-800/60 rounded-lg transition-all duration-200"
+              className="px-2 py-2 md:px-3 font-mono text-[10px] md:text-[11px] tracking-[0.12em] sm:tracking-[0.2em] md:tracking-[0.25em] uppercase text-zinc-500 hover:text-zinc-50 transition-colors relative group"
             >
+              <span className="hidden sm:inline text-accent-400 mr-1.5">
+                {String(i + 1).padStart(2, "0")}
+              </span>
               {item.label}
             </button>
           ))}

@@ -28,7 +28,7 @@ export const SLOGAN = [
 export const HERO = {
   slogan: SLOGAN[0],
   greeting:
-    "안녕하세요! 저는 시스템 최적화 및 자동화를 통해 더 활력 넘치는 세상을 만들기 위해 업무 최적화 플랫폼을 주로 개발하고 있는 이유비라고 합니다.",
+    "안녕하세요! 저는 더 편한 세상을 만들고 싶다는 비전을 가지고 사용자 경험에 초점을 맞추어 업무 환경 개선 및 최적화 플랫폼을 주로 개발하는 1인 개발자 이유비라고 합니다.",
   name: "이유비",
   role: "Web/Mobile Developer & Engineer",
 };
@@ -39,7 +39,6 @@ export const TECH_STACK = {
   backend: ["Express", "NestJS", "FastAPI"],
   DB: ["PostgreSQL(Supabase/Neon)", "SQLite"],
   Mobile: ["React Native(Expo)", "Flutter"],
-  etc: ["TailwindCSS", "Zustand", "Prisma", "Tanstack Query", "Clerk"],
 };
 
 export const HISTORIES = [
@@ -47,6 +46,11 @@ export const HISTORIES = [
     name: "한양대학교",
     sub: "Department ov Chemical Engineering",
     description: "The Engine of Korea, 화학공학과 26학번 신입학",
+  },
+  {
+    name: "FORIF",
+    sub: "HYU - Programming study club Mentor",
+    description: "Javascript Fullstack Architecture 스터디 멘토",
   },
   {
     name: "#IMPLUDE",
@@ -71,15 +75,15 @@ export const PORTFOLIO = [
     date: "2023.11",
     stack: ["Typescript", "React"],
   },
-  {
-    title: "StartHub",
-    subTitle: "공동의 목표를 가진 예비창업가들의 네트워크",
-    description:
-      "나와 비슷한 창업 아이템을 가진 사람들이 있을지 궁금하지 않으신가요? StartHub은 비슷한 목표를 가진 사람들을 모아 함께 프로젝트에 대해 논의하고, 프로젝트를 진행할 수 있도록 도와주는 서비스입니다. 저는 StartHub의 프로젝트 총괄과 UI/UX 디자인을 담당했습니다.",
-    image: starthub,
-    date: "2024.05",
-    stack: ["Typescript", "NextJS", "Supabase", "Zustand", "TailwindCSS"],
-  },
+  // {
+  //   title: "StartHub",
+  //   subTitle: "공동의 목표를 가진 예비창업가들의 네트워크",
+  //   description:
+  //     "나와 비슷한 창업 아이템을 가진 사람들이 있을지 궁금하지 않으신가요? StartHub은 비슷한 목표를 가진 사람들을 모아 함께 프로젝트에 대해 논의하고, 프로젝트를 진행할 수 있도록 도와주는 서비스입니다. 저는 StartHub의 프로젝트 총괄과 UI/UX 디자인을 담당했습니다.",
+  //   image: starthub,
+  //   date: "2024.05",
+  //   stack: ["Typescript", "NextJS", "Supabase", "Zustand", "TailwindCSS"],
+  // },
   {
     title: "SilkRoad",
     subTitle: "모든 학습의 시작, 당신을 위한 로드맵",
@@ -105,31 +109,31 @@ export const PORTFOLIO = [
       "Zustand",
     ],
   },
-  {
-    title: "AIdealize",
-    subTitle: "AI를 통한 사업 아이디어 분석 플랫폼",
-    description:
-      "AIdealize는 제 Side Project로, 사업 아이템을 AI에게 설명하면, AI가 사업 아이템의 위험성, 시장 규모, 경쟁력 등을 분석하여, 각각의 장단점을 분석하고 도와주는 서비스입니다. 저는 AIdealize의 모든 분야 개발을 담당하였고, 추후 서비스를 프로덕션 환경에 배포할 예정입니다.",
-    image: AIdealize,
-    date: "2026.03",
-    stack: ["Typescript", "NextJS", "Supabase", "Zustand", "TailwindCSS"],
-  },
-  {
-    title: "ATM - Attendance Table Manager",
-    subTitle: "학원을 위한 출석 관리 플랫폼",
-    description:
-      "학원에 등원하지 못하여 개인적으로 선생님께 연락을 하는 학생들이 많아지면 선생님들은 관리가 어려워집니다. ATM은 이러한 문제를 해결하기 위해, 학생들의 출결 상태를 시각화하여 쉽게 관리할 수 있도록 도와주는 서비스입니다. 저는 ATM의 모든 분야 개발을 담당하였습니다.",
-    image: atm,
-    date: "2026.03",
-    stack: [
-      "Typescript",
-      "NextJS",
-      "Supabase",
-      "Zustand",
-      "TailwindCSS",
-      "RadixUI",
-    ],
-  },
+  // {
+  //   title: "AIdealize",
+  //   subTitle: "AI를 통한 사업 아이디어 분석 플랫폼",
+  //   description:
+  //     "AIdealize는 제 Side Project로, 사업 아이템을 AI에게 설명하면, AI가 사업 아이템의 위험성, 시장 규모, 경쟁력 등을 분석하여, 각각의 장단점을 분석하고 도와주는 서비스입니다. 저는 AIdealize의 모든 분야 개발을 담당하였고, 추후 서비스를 프로덕션 환경에 배포할 예정입니다.",
+  //   image: AIdealize,
+  //   date: "2026.03",
+  //   stack: ["Typescript", "NextJS", "Supabase", "Zustand", "TailwindCSS"],
+  // },
+  // {
+  //   title: "ATM",
+  //   subTitle: "학원을 위한 출석 관리 플랫폼",
+  //   description:
+  //     "학원에 등원하지 못하여 개인적으로 선생님께 연락을 하는 학생들이 많아지면 선생님들은 관리가 어려워집니다. ATM은 이러한 문제를 해결하기 위해, 학생들의 출결 상태를 시각화하여 쉽게 관리할 수 있도록 도와주는 서비스입니다. 저는 ATM의 모든 분야 개발을 담당하였습니다.",
+  //   image: atm,
+  //   date: "2026.03",
+  //   stack: [
+  //     "Typescript",
+  //     "NextJS",
+  //     "Supabase",
+  //     "Zustand",
+  //     "TailwindCSS",
+  //     "RadixUI",
+  //   ],
+  // },
 ];
 
 export const AWARDS = [
@@ -150,10 +154,9 @@ export const AWARDS = [
     date: "2024.08",
   },
   {
-    title: "2024 JUNCTION ASIA — Apple Developer Academy @POSTECH track",
+    title: "2024 JUNCTION ASIA",
     prize: "2위",
-    description:
-      "처음으로 입상한 해커톤으로, 아시아 단위의 대다수의 성인 참가자가 포진해 있는 대회에서 저희 고등학생 팀이 2위를 차지했습니다.",
+    description: `처음으로 입상한 해커톤으로, 아시아 단위의 대다수의 성인 참가자가 포진해 있는 대회에서 저희 고등학생 팀이 2위를 차지했습니다.`,
     image: junctionasia,
     date: "2024.07",
   },

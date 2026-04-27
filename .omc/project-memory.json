@@ -1,0 +1,234 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1777254026728,
+  "projectRoot": "/Users/vincelee/Desktop/vince_portfolio_page",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "next",
+        "version": "16.1.6",
+        "category": "fullstack"
+      },
+      {
+        "name": "react",
+        "version": "19.2.3",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.3",
+        "category": "frontend"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": "npm run build",
+    "testCommand": null,
+    "lintCommand": "npm run lint",
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "next dev",
+      "build": "next build",
+      "start": "next start",
+      "lint": "eslint"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "public",
+      "src"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 7,
+      "lastAccessed": 1777254026716,
+      "keyFiles": [
+        "file.svg",
+        "globe.svg",
+        "icon.svg",
+        "next.svg",
+        "vercel.svg"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 0,
+      "lastAccessed": 1777254026721,
+      "keyFiles": []
+    },
+    "src/app": {
+      "path": "src/app",
+      "purpose": "Application code",
+      "fileCount": 4,
+      "lastAccessed": 1777254026723,
+      "keyFiles": [
+        "globals.css",
+        "icon.svg",
+        "layout.tsx"
+      ]
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 1,
+      "lastAccessed": 1777254026723,
+      "keyFiles": [
+        "image-container.tsx"
+      ]
+    },
+    "src/lib": {
+      "path": "src/lib",
+      "purpose": "Library code",
+      "fileCount": 1,
+      "lastAccessed": 1777254026723,
+      "keyFiles": [
+        "constants.ts"
+      ]
+    }
+  },
+  "hotPaths": [
+    {
+      "path": "src/components/sections/awards-section.tsx",
+      "accessCount": 59,
+      "lastAccessed": 1777312620643,
+      "type": "file"
+    },
+    {
+      "path": "src/components/sections/portfolio-section.tsx",
+      "accessCount": 43,
+      "lastAccessed": 1777313349438,
+      "type": "file"
+    },
+    {
+      "path": "src/app/portfolio/[id]/page.tsx",
+      "accessCount": 14,
+      "lastAccessed": 1777274998750,
+      "type": "file"
+    },
+    {
+      "path": "src/components/sections/hero-section.tsx",
+      "accessCount": 11,
+      "lastAccessed": 1777254172320,
+      "type": "file"
+    },
+    {
+      "path": "src/app/layout.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1777254173086,
+      "type": "file"
+    },
+    {
+      "path": "src/app/page.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1777275289713,
+      "type": "file"
+    },
+    {
+      "path": "src/components/layout/footer.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1777275647137,
+      "type": "file"
+    },
+    {
+      "path": "src/components/layout/header.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1777312762069,
+      "type": "file"
+    },
+    {
+      "path": "src/app/globals.css",
+      "accessCount": 7,
+      "lastAccessed": 1777254421046,
+      "type": "file"
+    },
+    {
+      "path": "src/lib/constants.ts",
+      "accessCount": 5,
+      "lastAccessed": 1777254678279,
+      "type": "file"
+    },
+    {
+      "path": "src/app/icon.svg",
+      "accessCount": 4,
+      "lastAccessed": 1776403042371,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ui/prize-badge.tsx",
+      "accessCount": 3,
+      "lastAccessed": 1777254177994,
+      "type": "file"
+    },
+    {
+      "path": "src/hooks/use-cinematic-scroll.ts",
+      "accessCount": 3,
+      "lastAccessed": 1777273589059,
+      "type": "file"
+    },
+    {
+      "path": "src",
+      "accessCount": 2,
+      "lastAccessed": 1776402335244,
+      "type": "directory"
+    },
+    {
+      "path": "src/hooks/use-stack-scroll.ts",
+      "accessCount": 2,
+      "lastAccessed": 1777254173372,
+      "type": "file"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 2,
+      "lastAccessed": 1777254178090,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ui/tech-badge.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1776402204173,
+      "type": "file"
+    },
+    {
+      "path": "src/components/sections/shooting-star-section.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1777254739557,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

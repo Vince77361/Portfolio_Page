@@ -13,7 +13,7 @@ function getPrizeBadgeStyle(prize: string): string {
     return "bg-amber-700/20 text-amber-400 border-amber-600/40";
   }
   // else -> 특별상 및 장려상 등
-  return "bg-violet-500/20 text-violet-300 border-violet-500/30";
+  return "bg-accent-500/20 text-accent-200 border-accent-500/30";
 }
 
 export default function PrizeBadge({ prize }: PrizeBadgeProps) {

@@ -12,6 +12,7 @@ export default function Home() {
         <HeroSection />
         <PortfolioSection />
         <AwardsSection />
+        <div className="h-48 md:h-72 bg-zinc-950" />
       </main>
       <Footer />
     </>
