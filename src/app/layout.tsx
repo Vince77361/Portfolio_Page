@@ -3,7 +3,7 @@ import { Saira, Noto_Sans_KR, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 const siteUrl = new URL("https://vincedev.kr");
-const siteTitle = "이유비 | Web/Mobile Developer & Engineer";
+const siteTitle = "이유비 포트폴리오 아카이브";
 const siteDescription =
   "대학생 1인 개발자 이유비의 포트폴리오 페이지입니다. PC에서 더욱 원활한 확인을 하실수 있습니다.";
 
