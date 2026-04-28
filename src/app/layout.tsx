@@ -2,6 +2,11 @@ import type { Metadata } from "next";
 import { Saira, Noto_Sans_KR, Inter, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
+const siteUrl = new URL("https://vincedev.kr");
+const siteTitle = "이유비 | Web/Mobile Developer & Engineer";
+const siteDescription =
+  "대학생 1인 개발자 이유비의 포트폴리오 페이지입니다. PC에서 더욱 원활한 확인을 하실수 있습니다.";
+
 const saira = Saira({
   variable: "--font-saira",
   subsets: ["latin"],
@@ -30,9 +35,61 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "이유비 포트폴리오 아카이브",
-  description:
-    "Vince The Developer - 이유비의 포트폴리오를 모아둔 페이지입니다.",
+  metadataBase: siteUrl,
+  applicationName: "이유비 포트폴리오",
+  title: {
+    default: siteTitle,
+    template: "%s | 이유비 Portfolio",
+  },
+  description: siteDescription,
+  keywords: [
+    "이유비",
+    "Vince",
+    "Vince77361",
+    "vincedev",
+    "개발자 포트폴리오",
+    "웹 개발자",
+    "모바일 개발자",
+    "프론트엔드",
+    "Next.js",
+    "React",
+    "TypeScript",
+    "업무 최적화 플랫폼",
+    "VOAH",
+    "SilkRoad",
+    "한별",
+  ],
+  authors: [{ name: "이유비", url: siteUrl }],
+  creator: "이유비",
+  publisher: "이유비",
+  category: "portfolio",
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    url: "/",
+    siteName: "이유비 Portfolio",
+    title: siteTitle,
+    description: siteDescription,
+  },
+  twitter: {
+    card: "summary",
+    title: siteTitle,
+    description: siteDescription,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
   icons: {
     icon: "/icon.svg",
   },

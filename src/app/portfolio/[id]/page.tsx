@@ -15,7 +15,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const item = PORTFOLIO.find((p) => p.title.toLowerCase() === id);
   if (!item) return {};
-  return { title: `${item.title} | 이유비 Portfolio` };
+  return {
+    title: item.title,
+    robots: {
+      index: false,
+      follow: true,
+    },
+  };
 }
 
 export default async function PortfolioDetailPage({ params }: Props) {
