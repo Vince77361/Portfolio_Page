@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import {
   Unbounded,
   Black_Han_Sans,
   IBM_Plex_Sans_KR,
   IBM_Plex_Mono,
 } from "next/font/google";
+import { SITE } from "@/lib/constants";
 import "./globals.css";
 
-const siteUrl = new URL("https://vincedev.kr");
-const siteTitle = "이유비 포트폴리오 아카이브";
-const siteDescription =
-  "대학생 1인 개발자 이유비의 포트폴리오 페이지입니다. PC에서 더욱 원활한 확인을 하실수 있습니다.";
+// Search console ownership tokens, set per deployment (never hard-coded).
+const googleVerification = process.env.GOOGLE_SITE_VERIFICATION;
+const naverVerification = process.env.NAVER_SITE_VERIFICATION;
 
 // Display: wide Unbounded for Latin, Black Han Sans picks up Hangul glyphs.
 const unbounded = Unbounded({
@@ -43,35 +43,50 @@ const plexMono = IBM_Plex_Mono({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#09090b",
+  colorScheme: "dark",
+};
+
 export const metadata: Metadata = {
-  metadataBase: siteUrl,
-  applicationName: "이유비 포트폴리오",
+  metadataBase: new URL(SITE.url),
+  applicationName: SITE.name,
   title: {
-    default: siteTitle,
+    default: SITE.title,
     template: "%s | 이유비 Portfolio",
   },
-  description: siteDescription,
+  description: SITE.description,
   keywords: [
     "이유비",
     "Vince",
     "Vince77361",
     "vincedev",
     "개발자 포트폴리오",
+    "풀스택 개발자",
     "웹 개발자",
     "모바일 개발자",
-    "프론트엔드",
+    "외주 개발",
+    "앱 개발 외주",
+    "웹 개발 외주",
     "Next.js",
     "React",
     "TypeScript",
+    "Flutter",
+    "NestJS",
+    "FastAPI",
+    "Go",
     "업무 최적화 플랫폼",
     "VOAH",
     "SilkRoad",
     "한별",
-    "외주 개발",
     "MindLens",
+    "Hanmin",
     "Cora",
+    "Tamguro",
+    "탐구로",
+    "한양대학교",
   ],
-  authors: [{ name: "이유비", url: siteUrl }],
+  authors: [{ name: "이유비", url: SITE.url }],
   creator: "이유비",
   publisher: "이유비",
   category: "portfolio",
@@ -79,17 +94,20 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    type: "website",
+    type: "profile",
     locale: "ko_KR",
     url: "/",
-    siteName: "이유비 Portfolio",
-    title: siteTitle,
-    description: siteDescription,
+    siteName: SITE.name,
+    title: SITE.title,
+    description: SITE.description,
+    firstName: "유비",
+    lastName: "이",
+    username: "Vince77361",
   },
   twitter: {
-    card: "summary",
-    title: siteTitle,
-    description: siteDescription,
+    card: "summary_large_image",
+    title: SITE.title,
+    description: SITE.description,
   },
   robots: {
     index: true,
@@ -104,6 +122,12 @@ export const metadata: Metadata = {
   },
   icons: {
     icon: "/icon.svg",
+  },
+  verification: {
+    ...(googleVerification ? { google: googleVerification } : {}),
+    ...(naverVerification
+      ? { other: { "naver-site-verification": naverVerification } }
+      : {}),
   },
 };
 

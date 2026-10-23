@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
-import { PORTFOLIO } from "@/lib/constants";
+import { PERSON_SCHEMA, PORTFOLIO, SITE } from "@/lib/constants";
+import JsonLd from "@/components/json-ld";
 import SystemMap from "@/components/ui/system-map";
 import Header from "@/components/layout/header";
 
@@ -15,12 +16,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const item = PORTFOLIO.find((p) => p.slug === id);
   if (!item) return {};
+  const title = `${item.title} — ${item.subTitle}`;
+  const description = item.description;
+  const path = `/portfolio/${item.slug}`;
   return {
-    title: item.title,
-    robots: {
-      index: false,
-      follow: true,
+    title,
+    description,
+    keywords: [item.title, ...item.stack, "이유비", "포트폴리오"],
+    alternates: { canonical: path },
+    openGraph: {
+      type: "article",
+      url: path,
+      title,
+      description,
+      siteName: SITE.name,
+      locale: "ko_KR",
     },
+    twitter: { card: "summary_large_image", title, description },
   };
 }
 
@@ -35,6 +47,20 @@ export default async function PortfolioDetailPage({ params }: Props) {
 
   return (
     <>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "CreativeWork",
+          name: item.title,
+          headline: `${item.title} — ${item.subTitle}`,
+          description: item.description,
+          url: `${SITE.url}/portfolio/${item.slug}`,
+          dateCreated: item.date.replace(".", "-"),
+          inLanguage: "ko-KR",
+          keywords: item.stack.join(", "),
+          author: PERSON_SCHEMA,
+        }}
+      />
       <Header />
       <main className="min-h-screen bg-zinc-950 pt-24 md:pt-32 pb-16 md:pb-20 px-4 sm:px-6 md:px-12">
         <div className="max-w-7xl mx-auto">

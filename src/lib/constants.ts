@@ -8,6 +8,46 @@ import starthub from "../../public/images/starthub.png";
 import AIdealize from "../../public/images/AIdealize.png";
 import voah from "../../public/images/voah.png";
 
+export const SITE = {
+  url: "https://vincedev.kr",
+  name: "이유비 Portfolio",
+  title: "이유비 | 웹·모바일 풀스택 개발자 포트폴리오",
+  description:
+    "웹·모바일 풀스택 개발자 이유비(Vince)의 포트폴리오. Next.js, React, Flutter, NestJS, FastAPI, Go로 업무 최적화 플랫폼과 외주 프로젝트(MindLens, Hanmin, Cora, Tamguro)를 기획부터 배포까지 개발합니다.",
+};
+
+// schema.org Person shared by every page's structured data.
+export const PERSON_SCHEMA = {
+  "@type": "Person",
+  "@id": "https://vincedev.kr/#person",
+  name: "이유비",
+  alternateName: ["Lee Yubi", "Vince", "Vince77361"],
+  url: "https://vincedev.kr",
+  jobTitle: "Web & Mobile Full-stack Developer",
+  email: "mailto:vince77361@gmail.com",
+  affiliation: {
+    "@type": "CollegeOrUniversity",
+    name: "한양대학교",
+    alternateName: "Hanyang University",
+  },
+  sameAs: [
+    "https://github.com/Vince77361",
+    "https://www.instagram.com/dev_v1nce/",
+  ],
+  knowsAbout: [
+    "TypeScript",
+    "React",
+    "Next.js",
+    "Flutter",
+    "React Native",
+    "NestJS",
+    "FastAPI",
+    "Go",
+    "PostgreSQL",
+    "Supabase",
+  ],
+};
+
 export const IMAGES = {
   junctionasia,
   highschoolcid,
