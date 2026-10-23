@@ -55,7 +55,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-12 py-12 md:py-16">
         <div className="flex items-baseline justify-between gap-4 border-b border-zinc-800 pb-3 mb-10">
           <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-zinc-500">
-            <span className="text-accent-400">04</span> &nbsp;—&nbsp; Contact
+            <span className="text-accent-400">05</span> &nbsp;—&nbsp; Contact
           </span>
           <span className="hidden sm:inline font-mono text-[11px] tracking-[0.25em] text-zinc-600">
             End of page

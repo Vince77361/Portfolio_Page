@@ -18,16 +18,16 @@
   --color-accent-700: #6d28d9;
   --color-accent-800: #5b21b6;
   --color-accent-900: #4c1d95;
-  --font-sans: var(--font-saira);
-  --font-display: var(--font-noto);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-plex-kr), system-ui, sans-serif;
+  --font-display: var(--font-unbounded), var(--font-black-han), sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-saira), Arial, Helvetica, sans-serif;
-  font-feature-settings: "ss01", "ss02";
+  font-family: var(--font-plex-kr), system-ui, sans-serif;
+  word-break: keep-all;
 }
 
 html {
@@ -43,8 +43,125 @@ body {
 }
 
 .font-display {
-  font-family: var(--font-noto), var(--font-saira), Arial, Helvetica, sans-serif;
-  font-weight: 900;
-  letter-spacing: -0.035em;
-  line-height: 0.9;
+  font-synthesis: none;
+  font-family: var(--font-unbounded), var(--font-black-han), sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.045em;
+  line-height: 0.95;
+}
+
+::selection {
+  background: rgba(139, 92, 246, 0.45);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent-400);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* Cursor-following glow on list rows (position set from pointer events). */
+.spotlight {
+  position: relative;
+  isolation: isolate;
+}
+.spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    420px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(139, 92, 246, 0.12),
+    transparent 60%
+  );
+  pointer-events: none;
+}
+.spotlight:hover::before {
+  opacity: 1;
+}
+.spotlight-blue::before {
+  background: radial-gradient(
+    360px circle at var(--mx, 50%) var(--my, 50%),
+    rgba(96, 165, 250, 0.12),
+    transparent 60%
+  );
+}
+
+@keyframes dash-flow {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+.link-flow {
+  stroke-dasharray: 4 8;
+  animation: dash-flow 1.2s linear infinite;
+}
+
+/* Awards: glass card with tilt + foil. Pointer vars set from JS. */
+.award-card {
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(3px);
+}
+.award-foil {
+  opacity: 0;
+  mix-blend-mode: soft-light;
+  background: linear-gradient(
+    var(--foil, 115deg),
+    transparent 20%,
+    rgba(196, 181, 253, 0.5) 40%,
+    rgba(147, 197, 253, 0.45) 50%,
+    rgba(255, 255, 255, 0.4) 58%,
+    transparent 78%
+  );
+  transition: opacity 0.5s ease;
+}
+.award-card:hover .award-foil {
+  opacity: 0.5;
+}
+.award-glare {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  background: radial-gradient(
+    circle at var(--px, 50%) var(--py, 50%),
+    rgba(255, 255, 255, 0.07),
+    transparent 55%
+  );
+}
+.award-card:hover .award-glare {
+  opacity: 1;
+}
+
+@keyframes nebula-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(4vw, -3vh, 0) scale(1.08);
+  }
+}
+.nebula-drift {
+  animation: nebula-float 18s ease-in-out infinite;
+}
+.nebula-drift-slow {
+  animation: nebula-float 26s ease-in-out infinite reverse;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nebula-drift,
+  .nebula-drift-slow {
+    animation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+  .link-flow {
+    animation: none;
+  }
 }

@@ -2,18 +2,18 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import type { Metadata } from "next";
 import { PORTFOLIO } from "@/lib/constants";
-import ImageContainer from "@/components/image-container";
+import SystemMap from "@/components/ui/system-map";
 import Header from "@/components/layout/header";
 
 type Props = { params: Promise<{ id: string }> };
 
 export function generateStaticParams() {
-  return PORTFOLIO.map((item) => ({ id: item.title.toLowerCase() }));
+  return PORTFOLIO.map((item) => ({ id: item.slug }));
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const item = PORTFOLIO.find((p) => p.title.toLowerCase() === id);
+  const item = PORTFOLIO.find((p) => p.slug === id);
   if (!item) return {};
   return {
     title: item.title,
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function PortfolioDetailPage({ params }: Props) {
   const { id } = await params;
-  const index = PORTFOLIO.findIndex((p) => p.title.toLowerCase() === id);
+  const index = PORTFOLIO.findIndex((p) => p.slug === id);
   if (index === -1) notFound();
 
   const item = PORTFOLIO[index];
@@ -60,20 +60,18 @@ export default async function PortfolioDetailPage({ params }: Props) {
             </span>
           </div>
 
-          <h1 className="font-display text-[clamp(3rem,19vw,9rem)] uppercase text-zinc-50 mb-6">
+          <h1 className="font-display text-[clamp(2.2rem,11vw,9rem)] uppercase text-zinc-50 mb-6">
             {item.title}
           </h1>
           <p className="text-lg md:text-xl text-accent-300 font-medium max-w-2xl leading-snug mb-12">
             {item.subTitle}
           </p>
 
-          <div className="relative mb-12 md:mb-16">
-            <div className="absolute inset-0 bg-linear-to-br from-accent-500/20 via-accent-700/5 to-transparent -m-2 md:-m-4 blur-2xl pointer-events-none" />
-            <ImageContainer
-              src={item.image}
-              alt={item.title}
-              className="w-full aspect-[4/3] sm:aspect-[16/9] relative"
-            />
+          <div className="mb-12 md:mb-16 max-w-4xl">
+            <p className="mb-3 text-xs text-zinc-500">
+              시스템 구성 — 노드를 눌러 각 부분의 역할을 확인하세요
+            </p>
+            <SystemMap nodes={item.nodes} links={item.links} accent="violet" />
           </div>
 
           <div className="grid grid-cols-12 gap-x-4 md:gap-x-6 gap-y-10 mb-20">
@@ -106,7 +104,7 @@ export default async function PortfolioDetailPage({ params }: Props) {
           <div className="border-t border-zinc-800 pt-8 grid grid-cols-1 sm:grid-cols-2 gap-8 sm:gap-4">
             {prev ? (
               <Link
-                href={`/portfolio/${prev.title.toLowerCase()}`}
+                href={`/portfolio/${prev.slug}`}
                 className="group sm:border-r border-zinc-900 sm:pr-6"
               >
                 <p className="font-mono text-[11px] tracking-[0.25em] uppercase text-zinc-500 mb-2">
@@ -122,7 +120,7 @@ export default async function PortfolioDetailPage({ params }: Props) {
 
             {next ? (
               <Link
-                href={`/portfolio/${next.title.toLowerCase()}`}
+                href={`/portfolio/${next.slug}`}
                 className="group sm:text-right sm:pl-6"
               >
                 <p className="font-mono text-[11px] tracking-[0.25em] uppercase text-zinc-500 mb-2">

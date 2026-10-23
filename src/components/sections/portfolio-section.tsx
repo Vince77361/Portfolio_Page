@@ -92,12 +92,121 @@ function drawBackground(
   ctx.fill();
 }
 
+const DROP_STEPS = 18;
+
+function drawTeardropGlow(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  scale: number,
+  stretch: number
+) {
+  const headR = 60 * scale;
+  const length = (100 + stretch * 130) * scale;
+  for (let i = DROP_STEPS; i >= 0; i--) {
+    const t = i / DROP_STEPS; // 0 = head, 1 = tip
+    const cy = y - t * length - (1 - t) * 6;
+    // Width eases out toward the tip so the outline reads as a drop.
+    const r = headR * Math.pow(1 - t, 0.85) * (0.92 + 0.08 * (1 - stretch * t));
+    if (r < 2) continue;
+    const a = (0.11 + stretch * 0.03) * (1 - t * 0.7);
+    const g = ctx.createRadialGradient(x, cy, 0, x, cy, r);
+    g.addColorStop(0, `rgba(196,181,253,${a * 1.4})`);
+    g.addColorStop(0.35, `rgba(139,92,246,${a * 0.7})`);
+    g.addColorStop(1, "rgba(96,165,250,0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(x - r, cy - r, r * 2, r * 2);
+  }
+}
+
+type Orbiter = {
+  radius: number; // semi-major axis in px
+  squash: number; // ellipse ratio — flatter reads as a tilted ring
+  tilt: number; // ring rotation in radians
+  speed: number; // radians per second (sign = direction)
+  phase: number;
+  size: number;
+  rgb: string;
+};
+
+const ORBITERS: Orbiter[] = [
+  { radius: 54, squash: 0.32, tilt: -0.35, speed: 1.9, phase: 0, size: 1.7, rgb: "221,214,254" },
+  { radius: 86, squash: 0.28, tilt: 0.28, speed: -1.25, phase: 2.1, size: 1.4, rgb: "147,197,253" },
+  { radius: 122, squash: 0.24, tilt: -0.12, speed: 0.85, phase: 4.2, size: 1.2, rgb: "255,255,255" },
+  { radius: 150, squash: 0.2, tilt: 0.5, speed: -0.6, phase: 1.1, size: 1, rgb: "196,181,253" },
+];
+
+const ORBIT_TRAIL = 30;
+
+function orbitPoint(o: Orbiter, angle: number, scale: number) {
+  const ex = Math.cos(angle) * o.radius * scale;
+  const ey = Math.sin(angle) * o.radius * o.squash * scale;
+  return {
+    x: ex * Math.cos(o.tilt) - ey * Math.sin(o.tilt),
+    y: ex * Math.sin(o.tilt) + ey * Math.cos(o.tilt),
+    // sin > 0 → lower half of the ring → in front of the star
+    depth: Math.sin(angle),
+  };
+}
+
+// Small shooting stars circling the main star with curved trails.
+// "back" draws the parts behind the star, "front" the parts in front.
+function drawOrbiters(
+  ctx: CanvasRenderingContext2D,
+  cx: number,
+  cy: number,
+  p: number,
+  time: number,
+  isMobile: boolean,
+  layer: "back" | "front"
+) {
+  const appear = Math.min(1, p / 0.06);
+  if (appear <= 0) return;
+  const scale = isMobile ? 0.85 : 1.3;
+
+  for (const o of ORBITERS) {
+    const head = o.phase + time * o.speed;
+    const step = 0.055 * Math.sign(o.speed);
+
+    // Continuous tapered trail made of short segments along the ring.
+    ctx.lineCap = "round";
+    let prev = orbitPoint(o, head - step * ORBIT_TRAIL, scale);
+    for (let k = ORBIT_TRAIL - 1; k >= 0; k--) {
+      const cur = orbitPoint(o, head - step * k, scale);
+      const inFront = (prev.depth + cur.depth) / 2 > 0;
+      if ((layer === "front") === inFront) {
+        const fade = 1 - k / ORBIT_TRAIL; // 0 at the tail end → 1 at the head
+        const depthDim = inFront ? 1 : 0.35;
+        ctx.beginPath();
+        ctx.moveTo(cx + prev.x, cy + prev.y);
+        ctx.lineTo(cx + cur.x, cy + cur.y);
+        ctx.strokeStyle = `rgba(${o.rgb},${fade * fade * 0.9 * depthDim * appear})`;
+        ctx.lineWidth = o.size * (0.2 + fade * 1.3) * (inFront ? 1.1 : 0.75);
+        ctx.stroke();
+      }
+      prev = cur;
+    }
+
+    const h = orbitPoint(o, head, scale);
+    if ((layer === "front") !== h.depth > 0) continue;
+    const glowR = 10 * o.size * (h.depth > 0 ? 1 : 0.6);
+    const glow = ctx.createRadialGradient(cx + h.x, cy + h.y, 0, cx + h.x, cy + h.y, glowR);
+    glow.addColorStop(0, `rgba(255,255,255,${0.95 * appear * (h.depth > 0 ? 1 : 0.4)})`);
+    glow.addColorStop(0.3, `rgba(${o.rgb},${0.5 * appear})`);
+    glow.addColorStop(1, `rgba(${o.rgb},0)`);
+    ctx.fillStyle = glow;
+    ctx.fillRect(cx + h.x - glowR, cy + h.y - glowR, glowR * 2, glowR * 2);
+  }
+}
+
 function drawStar(
   ctx: CanvasRenderingContext2D,
   p: number,
   w: number,
   h: number,
-  isMobile: boolean
+  isMobile: boolean,
+  time: number,
+  stretch: number
 ) {
   ctx.clearRect(0, 0, w, h);
   drawBackground(ctx, w, h, p, isMobile);
@@ -107,6 +216,20 @@ function drawStar(
   const y = h * (STAR_TOP + (STAR_BOTTOM - STAR_TOP) * p);
   const tailLen = Math.min(p * 420, 380);
   const tailY = Math.max(h * STAR_TOP, y - tailLen);
+
+  // Extra-wide glow around the tail
+  const tgGlow = ctx.createLinearGradient(x, tailY, x, y);
+  tgGlow.addColorStop(0, "rgba(139,92,246,0)");
+  tgGlow.addColorStop(0.6, "rgba(139,92,246,0.10)");
+  tgGlow.addColorStop(1, "rgba(167,139,250,0.30)");
+  ctx.beginPath();
+  ctx.moveTo(x - 22, tailY);
+  ctx.quadraticCurveTo(x, tailY + (y - tailY) * 0.4, x - 6, y);
+  ctx.lineTo(x + 6, y);
+  ctx.quadraticCurveTo(x, tailY + (y - tailY) * 0.4, x + 22, tailY);
+  ctx.closePath();
+  ctx.fillStyle = tgGlow;
+  ctx.fill();
 
   // Wide soft tail (purple haze)
   const tgWide = ctx.createLinearGradient(x, tailY, x, y);
@@ -137,12 +260,19 @@ function drawStar(
   ctx.save();
   ctx.globalCompositeOperation = "lighter";
 
-  // Halo — slow breathing
-  const haloPulse = 0.5 + 0.5 * Math.sin(p * 11 + 0.4);
-  const haloR = 50 + haloPulse * 18;
+  // Orbiters on the far side of the star, drawn before the glow.
+  drawOrbiters(ctx, x, y, p, time, isMobile, "back");
+
+  // Teardrop bloom — round at the head, drawn out upward behind it.
+  // Faster scrolling stretches the drop for a stronger sense of motion.
+  drawTeardropGlow(ctx, x, y, isMobile ? 0.8 : 1, stretch);
+
+  // Halo — slow breathing (keeps breathing while scroll rests)
+  const haloPulse = 0.5 + 0.5 * Math.sin(p * 11 + time * 1.6 + 0.4);
+  const haloR = 72 + haloPulse * 26;
   const halo = ctx.createRadialGradient(x, y, 0, x, y, haloR);
-  halo.addColorStop(0, `rgba(255,255,255,${0.35 + haloPulse * 0.35})`);
-  halo.addColorStop(0.4, `rgba(195,170,255,${0.14 + haloPulse * 0.18})`);
+  halo.addColorStop(0, `rgba(255,255,255,${0.5 + haloPulse * 0.4})`);
+  halo.addColorStop(0.35, `rgba(195,170,255,${0.22 + haloPulse * 0.22})`);
   halo.addColorStop(1, "rgba(0,0,0,0)");
   ctx.beginPath();
   ctx.arc(x, y, haloR, 0, Math.PI * 2);
@@ -195,12 +325,12 @@ function drawStar(
 
   // Inner glow flickers fast
   const corePulse = 0.78 + 0.22 * Math.sin(p * 31 + 1.3);
-  const ig = ctx.createRadialGradient(x, y, 0, x, y, 11);
+  const ig = ctx.createRadialGradient(x, y, 0, x, y, 17);
   ig.addColorStop(0, `rgba(255,255,255,${corePulse})`);
   ig.addColorStop(0.6, `rgba(235,225,255,${corePulse * 0.85})`);
   ig.addColorStop(1, "rgba(0,0,0,0)");
   ctx.beginPath();
-  ctx.arc(x, y, 11, 0, Math.PI * 2);
+  ctx.arc(x, y, 17, 0, Math.PI * 2);
   ctx.fillStyle = ig;
   ctx.fill();
 
@@ -210,6 +340,8 @@ function drawStar(
   ctx.arc(x, y, coreR, 0, Math.PI * 2);
   ctx.fillStyle = "#ffffff";
   ctx.fill();
+
+  drawOrbiters(ctx, x, y, p, time, isMobile, "front");
 
   ctx.restore();
 
@@ -253,7 +385,7 @@ function PortfolioHeader() {
             {String(PORTFOLIO.length).padStart(2, "0")} projects
           </span>
         </div>
-        <h2 className="font-display text-[clamp(2.8rem,16vw,8.5rem)] uppercase text-zinc-50">
+        <h2 className="font-display text-[clamp(2rem,10.5vw,8.5rem)] uppercase text-zinc-50">
           Main Projects
         </h2>
         <div className="mt-10 grid grid-cols-12 gap-x-4 md:gap-x-6">
@@ -297,13 +429,48 @@ function StarSection() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    let w = window.innerWidth;
+    let h = window.innerHeight;
+    let progress = 0;
     const resize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      drawStar(ctx, 0, canvas.width, canvas.height, isMobile);
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
     window.addEventListener("resize", resize);
+
+    // Redraw every frame so the orbiters keep circling while scroll rests.
+    const reduceMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)"
+    ).matches;
+    let raf = 0;
+    let visible = false;
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+    });
+    observer.observe(section);
+    let stretch = 0;
+    let stretchTarget = 0;
+    const tick = (now: number) => {
+      raf = requestAnimationFrame(tick);
+      if (!visible) return;
+      stretch += (stretchTarget - stretch) * 0.08;
+      stretchTarget *= 0.94; // settle back to a short drop when scrolling stops
+      drawStar(
+        ctx,
+        progress,
+        w,
+        h,
+        isMobile,
+        reduceMotion ? 0 : now / 1000,
+        reduceMotion ? 0 : stretch
+      );
+    };
+    raf = requestAnimationFrame(tick);
 
     itemRefs.current.forEach((el) => {
       if (el) gsap.set(el, { yPercent: -50, opacity: 0 });
@@ -317,12 +484,21 @@ function StarSection() {
       scrub: isMobile ? 1.2 : 1.8,
       onUpdate: (self) => {
         const p = self.progress;
-        drawStar(ctx, p, canvas.width, canvas.height, isMobile);
+        progress = p;
+        stretchTarget = Math.max(
+          stretchTarget,
+          Math.min(1, Math.abs(self.getVelocity()) / 2500)
+        );
 
         itemRefs.current.forEach((el, i) => {
           if (!el) return;
           const { opacity, y } = getItemState(p, i, PORTFOLIO.length);
-          gsap.set(el, { opacity, y, yPercent: -50 });
+          gsap.set(el, {
+            opacity,
+            y,
+            yPercent: -50,
+            pointerEvents: opacity > 0.5 ? "auto" : "none",
+          });
         });
 
         // Fade out whole section as last item disappears
@@ -334,6 +510,8 @@ function StarSection() {
     });
 
     return () => {
+      cancelAnimationFrame(raf);
+      observer.disconnect();
       window.removeEventListener("resize", resize);
       trigger.kill();
     };
@@ -361,7 +539,7 @@ function StarSection() {
             ref={(el) => {
               itemRefs.current[i] = el;
             }}
-            className="absolute z-10 top-[55%] md:top-1/2 pointer-events-auto"
+            className="absolute z-10 top-[55%] md:top-1/2 pointer-events-none"
             style={{
               opacity: 0,
               ...(isMobile
@@ -379,7 +557,7 @@ function StarSection() {
               — {String(i + 1).padStart(2, "0")} &nbsp;/&nbsp; {item.date}
             </p>
             <h3
-              className={`font-display text-[clamp(2.55rem,15vw,4.5rem)] md:text-[clamp(3rem,7vw,7.5rem)] text-zinc-50 uppercase leading-[0.88] mb-3 ${
+              className={`font-display text-[clamp(2rem,11vw,4.5rem)] md:text-[clamp(3rem,7vw,7.5rem)] text-zinc-50 uppercase leading-[0.88] mb-3 ${
                 isMobile ? "text-center" : !isLeft ? "text-right" : ""
               }`}
             >
@@ -408,7 +586,7 @@ function StarSection() {
             </div>
             <div className={`flex ${isMobile ? "justify-center" : !isLeft ? "justify-end" : ""}`}>
               <Link
-                href={`/portfolio/${item.title.toLowerCase()}`}
+                href={`/portfolio/${item.slug}`}
                 className="inline-flex items-center gap-3 group"
               >
                 <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-accent-300 group-hover:text-accent-200 transition-colors">

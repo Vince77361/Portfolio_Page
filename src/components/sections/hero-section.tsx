@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { HERO, HISTORIES, TECH_STACK, SLOGAN } from "@/lib/constants";
+import { motion, type Variants } from "framer-motion";
+import { HERO, HISTORIES, TECH_STACK } from "@/lib/constants";
+import ConstellationCanvas from "@/components/ui/constellation-canvas";
+import MagneticText from "@/components/ui/magnetic-text";
+
+function trackSpotlight(e: React.PointerEvent<HTMLElement>) {
+  const rect = e.currentTarget.getBoundingClientRect();
+  e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+  e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
+}
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 24 },
@@ -14,22 +21,20 @@ const fadeUp: Variants = {
 };
 
 export default function HeroSection() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setIndex((prev) => (prev + 1) % SLOGAN.length);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, []);
-
   const techEntries = Object.entries(TECH_STACK) as [string, string[]][];
 
   return (
-    <section
-      id="hero"
-      className="min-h-screen px-4 sm:px-6 md:px-12 pt-24 md:pt-32 pb-16 md:pb-20 max-w-7xl mx-auto"
-    >
+    <section id="hero" className="relative overflow-hidden">
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-[110vh] pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(60% 50% at 78% 18%, rgba(124,58,237,0.16), transparent 70%), radial-gradient(40% 40% at 10% 60%, rgba(96,165,250,0.05), transparent 70%)",
+        }}
+      />
+      <ConstellationCanvas />
+      <div className="relative min-h-screen px-4 sm:px-6 md:px-12 pt-24 md:pt-32 pb-16 md:pb-20 max-w-7xl mx-auto">
       {/* Meta row */}
       <motion.div
         custom={0}
@@ -41,20 +46,6 @@ export default function HeroSection() {
         <span className="font-mono text-[11px] tracking-[0.25em] uppercase text-zinc-500">
           <span className="text-accent-400">01</span> &nbsp;—&nbsp; Index
         </span>
-        <div className="h-4 overflow-hidden" style={{ perspective: 800 }}>
-          <AnimatePresence mode="popLayout">
-            <motion.span
-              key={index}
-              initial={{ rotateX: 45, opacity: 0, y: 10 }}
-              animate={{ rotateX: 0, opacity: 1, y: 0 }}
-              exit={{ rotateX: -45, opacity: 0, y: -10 }}
-              transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1] }}
-              className="block max-w-[42vw] truncate text-right font-mono text-[10px] sm:text-[11px] tracking-[0.14em] sm:tracking-[0.25em] uppercase text-accent-300"
-            >
-              {SLOGAN[index]}
-            </motion.span>
-          </AnimatePresence>
-        </div>
       </motion.div>
 
       {/* Name + role asymmetric */}
@@ -66,7 +57,7 @@ export default function HeroSection() {
         className="mt-10 md:mt-14 grid grid-cols-12 gap-x-4 md:gap-x-6 items-end"
       >
         <h1 className="col-span-12 md:col-span-9 font-display text-[clamp(3.75rem,22vw,11rem)] uppercase text-zinc-50">
-          {HERO.name}
+          <MagneticText text={HERO.name} />
         </h1>
         <div className="col-span-12 md:col-span-3 mt-4 md:mt-0 md:pb-4">
           <p className="font-mono text-[11px] tracking-[0.25em] uppercase text-zinc-500 mb-2">
@@ -74,6 +65,13 @@ export default function HeroSection() {
           </p>
           <p className="text-sm md:text-base text-accent-300 leading-snug font-medium">
             {HERO.role}
+          </p>
+          <p className="mt-4 hidden md:flex items-center gap-2 text-xs text-zinc-500">
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full rounded-full bg-accent-400 opacity-60 motion-safe:animate-ping" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-accent-300" />
+            </span>
+            커서를 움직이고, 클릭해 보세요
           </p>
         </div>
       </motion.div>
@@ -116,13 +114,14 @@ export default function HeroSection() {
           {HISTORIES.map((h, i) => (
             <li
               key={h.name}
-              className="grid grid-cols-12 gap-x-4 md:gap-x-6 py-6 border-b border-zinc-900 hover:border-accent-500/40 transition-colors"
+              onPointerMove={trackSpotlight}
+              className="spotlight group grid grid-cols-12 gap-x-4 md:gap-x-6 py-6 border-b border-zinc-900 hover:border-accent-500/40 transition-colors"
             >
               <span className="col-span-2 md:col-span-1 font-mono text-[11px] text-accent-400 pt-1">
                 {String(i + 1).padStart(2, "0")}
               </span>
               <div className="col-span-10 md:col-span-4">
-                <p className="font-display text-xl sm:text-2xl md:text-3xl font-bold text-zinc-100 leading-tight">
+                <p className="font-display text-xl sm:text-2xl md:text-3xl font-bold text-zinc-100 leading-tight transition-transform duration-500 ease-out group-hover:translate-x-2">
                   {h.name}
                 </p>
                 <p className="mt-1 font-mono text-[10px] tracking-[0.2em] uppercase text-accent-400">
@@ -164,7 +163,9 @@ export default function HeroSection() {
             <div className="col-span-12 sm:col-span-8 md:col-span-10 mt-2 sm:mt-0 flex flex-wrap gap-x-4 gap-y-1">
               {items.map((tech, i) => (
                 <span key={tech} className="flex items-center text-sm text-zinc-200">
-                  {tech}
+                  <span className="inline-block cursor-default transition duration-300 hover:-translate-y-0.5 hover:text-accent-200 hover:[text-shadow:0_0_18px_rgba(167,139,250,0.7)]">
+                    {tech}
+                  </span>
                   {i < items.length - 1 && (
                     <span className="ml-4 text-zinc-700">/</span>
                   )}
@@ -193,6 +194,7 @@ export default function HeroSection() {
           ↓
         </motion.span>
       </motion.div>
+      </div>
     </section>
   );
 }
